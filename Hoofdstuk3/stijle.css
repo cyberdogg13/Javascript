@@ -1,0 +1,20 @@
+html{
+    margin: 0px;
+    padding: 0px;
+}
+img{
+    height: 300px;
+    width: 300px;
+    border: 0px;
+}
+div#fotos{
+    width: 900px;
+    height: 900px;
+    border: 1px solid black;
+    font-size: 0px;
+    margin: auto;
+}
+body{
+    font-family: sans-serif;
+    text-align: center;
+}
