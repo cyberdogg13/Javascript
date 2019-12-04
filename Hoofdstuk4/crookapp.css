@@ -1,0 +1,25 @@
+div#fullface{
+    height: 1024px;
+    width: 1024px;
+    margin: auto;
+    border: solid black 3px;
+    background-color: black;
+
+}
+div{
+    border: solid black 2px;
+}
+div#top{
+    width: 1024px;
+    height: 570px;
+}
+
+div#mid{
+    width: 1024px;
+    height: 124px;
+}
+
+div#bot{
+    width: 1024px;
+    height: 330px;
+}
