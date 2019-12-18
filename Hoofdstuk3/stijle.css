@@ -18,3 +18,15 @@ body{
     font-family: sans-serif;
     text-align: center;
 }
+div#wrapper{
+    margin: 20px;
+    background-color: lightslategray;
+}
+ol{
+    background-color: gray;
+    padding-left: 30px;
+    margin-top: 100px;
+}
+body{
+    background-color: darkgray;
+}
