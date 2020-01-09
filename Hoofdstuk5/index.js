@@ -9,9 +9,7 @@ function createpictureholders() {
         pictureholder.className = "picture-holder";
         pictureholder.id = "picture-holder-" + i;
         fotos.appendChild(pictureholder);
-
     }
-
 }
 
 function createvogelbekdierpictures() {
