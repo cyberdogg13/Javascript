@@ -1,5 +1,6 @@
 fotos = document.getElementById("fotos");
 
+
 createpictureholders();
 createvogelbekdierpictures();
 

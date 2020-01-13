@@ -1,4 +1,4 @@
-fotos = document.getElementById("fotos");
+
 
 createpictureholders();
 createvogelbekdierpictures();
@@ -22,15 +22,20 @@ function createpictureholders() {
 
 function createvogelbekdierpictures() {
     pictureholders = document.getElementsByClassName("picture-holder");
-    console.log(pictureholders);
-    for (var i = 0; i < pictureholders.length; i++) {
+    var x = 1;
+    for (var i = 0; i < 18; i++) {
+        if (x == 10) {
+            x = 1;
+        }
+
         vogelbekdierplaatje = document.createElement("img");
-        vogelbekdierplaatje.src = "../Hoofdstuk5/vogelbekdieren300,300/vogelbekdier" + (i + 1) + ".jpg";
-        vogelbekdierplaatje.id = "vogelbekdier" + i;
+        vogelbekdierplaatje.src = "../Hoofdstuk5/vogelbekdieren300,300/vogelbekdier" + x + ".jpg";
+        vogelbekdierplaatje.id = i;
         vogelbekdierplaatje.addEventListener("click", function () {
             laatfotozien(this.id);
         });
         pictureholders[i].appendChild(vogelbekdierplaatje);
+        x++;
     }
-
+    console.log(pictureholders)
 }
