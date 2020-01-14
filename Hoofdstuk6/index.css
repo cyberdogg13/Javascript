@@ -26,6 +26,36 @@ div.picture-holder{
     float: left;
     background-color: yellow;
 }
-img{
+div#speler1{
+    float: left;
+    width: 400px;
+    height: 220px;
+    background-color: lightblue;
+}
 
+div#speler2{
+    float: right;
+    width: 400px;
+    height: 220px;
+    background-color: red;
+}
+div#top{
+    width: 100%;
+    height: 250px;
+    display: flex;
+}
+div#knop{
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    height: 100px;
+    text-align: center;
+    background-color: sandybrown;
+}
+div#beurten{
+    width: 400px;
+    height: 100px;
+    margin: auto;
+    background-color: aquamarine;
 }
