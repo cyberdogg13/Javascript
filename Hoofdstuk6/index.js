@@ -25,7 +25,7 @@ document.getElementById("knop").addEventListener("click", function () {
     volgende();
 })
 document.getElementById("knop").style.visibility = "hidden";
-document.getElementById("beurt").innerText = "Speler 1 is aan de beurt"
+document.getElementById("beurt").innerText = "Perry is aan de beurt";
 
 createpictureholders();
 
@@ -86,11 +86,11 @@ function volgende() {
         nietgevondenfotos.splice(nietgevondenfotos.indexOf(foto2), 1);
         if (beurt == 0) {
             punten1++
-            document.getElementById("punten1").innerText = punten1 + " aantal punten";
+            document.getElementById("punten1").innerText = "aantal punten: " +punten1;
         }
         if (beurt == 1) {
             punten2++
-            document.getElementById("punten2").innerText = punten2 + " aantal punten";
+            document.getElementById("punten2").innerText = "aantal punten: " + punten2;
         }
     }
     else {
@@ -100,21 +100,36 @@ function volgende() {
     for (var i = 0; i < nietgevondenfotos.length; i++) {
         nietgevondenfotos[i].style.opacity = "0.01";
 
+
     }
     console.log(beurt);
     document.getElementById("knop").style.visibility = "hidden";
+    if (nietgevondenfotos == 0){
+        if (punten1>punten2){
+            alert("Perry heeft gewonnen!!");
+        }
+        if (punten2>punten1){
+            alert("Dr.doofensmirts heeft gewonnen!!");
+        }
+    };
 }
-
+// het wisselen van beurten
 function wisselbeurt() {
     if (beurt == 0){
         beurt++
-        document.getElementById("beurt").innerText = "Speler 2 is aan de beurt";
+        document.getElementById("beurt").innerText = "Dr.Doofensmirts is aan de beurt";
+        document.getElementById("perry").src = "perry1.jfif";
+        document.getElementById("doof").src = "drdoof2.jpg";
 
     }
     else {
         beurt --;
-        document.getElementById("beurt").innerText = "Speler 1 is aan de beurt";
+        document.getElementById("beurt").innerText = "Perry is aan de beurt";
+        document.getElementById("perry").src = "perry2.png";
+        document.getElementById("doof").src = "drdoof1.jpg";
 
     }
 
 }
+
+

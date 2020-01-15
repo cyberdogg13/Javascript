@@ -29,14 +29,14 @@ div.picture-holder{
 div#speler1{
     float: left;
     width: 400px;
-    height: 220px;
+    height: 250px;
     background-color: lightblue;
 }
 
 div#speler2{
     float: right;
     width: 400px;
-    height: 220px;
+    height: 250px;
     background-color: red;
 }
 div#top{
@@ -58,4 +58,12 @@ div#beurten{
     height: 100px;
     margin: auto;
     background-color: aquamarine;
+}
+img#doof{
+    height: 120px;
+    width: 120px;
+}
+img#perry{
+    height: 120px;
+    width: 120px;
 }
