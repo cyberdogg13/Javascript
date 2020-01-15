@@ -36,7 +36,7 @@ function laatfotozien(id) {
         console.log("dit is nummer " + id);
         console.log("aantal keer geklikt = " + aantalkliks);
         var selectie = document.getElementById(id);
-        selectie.style.visibility = "visible";
+        selectie.style.opacity = "1";
     }
     if (aantalkliks == 0) {
         foto1 = selectie;
@@ -62,7 +62,7 @@ function createpictureholders() {
             laatfotozien(this.id);
         });
         nietgevondenfotos[i] = allefotos[i];
-        nietgevondenfotos[i].style.visibility = "hidden";
+        nietgevondenfotos[i].style.opacity = "0.01";
     }
 }
 
@@ -98,10 +98,11 @@ function volgende() {
     }
 
     for (var i = 0; i < nietgevondenfotos.length; i++) {
-        nietgevondenfotos[i].style.visibility = "hidden";
-        document.getElementById("knop").style.visibility = "visible";
+        nietgevondenfotos[i].style.opacity = "0.01";
+
     }
     console.log(beurt);
+    document.getElementById("knop").style.visibility = "hidden";
 }
 
 function wisselbeurt() {
