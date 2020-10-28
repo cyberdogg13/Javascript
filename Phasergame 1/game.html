@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>game</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        physics: {
+            default: "arcade",
+            arcade: {
+                gravity: {y: 300},
+                debug: false
+            }
+
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+    var platforms;
+    var game = new Phaser.Game(config);
+    var speler;
+    var beweging;
+    var sterren;
+    var punten = 0;
+    var puntentekst;
+    var gameover = false;
+    var bommen;
+
+
+
+    function preload() {
+        this.load.audio("beginGameSound", ["audio/yowzer.mp3", "audio/yowzer.ogg"])
+        this.load.audio("smacksound", ["audio/smack.mp3", "audio/smack.ogg"])
+        this.load.image("achtergrond", "assets/sky.png");
+        this.load.image("platform", "assets/platform.png");
+        this.load.image("ster", "assets/star.png");
+        this.load.image("bom", "assets/bomb.png");
+        this.load.spritesheet("aapje",
+            "assets/dude.png",
+            {frameWidth: 32, frameHeight: 48}
+        );
+    }
+
+    var X = 0;
+
+    function create() {
+        //world gen
+        this.beginGameSound = this.sound.add("beginGameSound");
+        this.beginGameSound.play();
+
+        this.smacksound = this.sound.add("smacksound");
+
+
+        this.add.image(game.config.width / 2, game.config.height / 2, "achtergrond");
+
+        platforms = this.physics.add.staticGroup();
+
+        platforms.create(400, 568, "platform").setScale(2).refreshBody();
+
+        platforms.create(600, 400, "platform");
+        platforms.create(50, 300, "platform");
+        platforms.create(500, 200, "platform").setScale(0.6).refreshBody();
+        platforms.create(750, 100, "platform").setScale(0.6).refreshBody();
+
+        // player gen
+        speler = this.physics.add.sprite(100, 450, "aapje")
+
+        speler.setBounce(0.2);
+        speler.setCollideWorldBounds(true);
+
+        this.anims.create({
+            key: "left",
+            frames: this.anims.generateFrameNumbers("aapje", {start: 0, end: 3}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+
+        this.anims.create({
+            key: "turn",
+            frames: [{key: "aapje", frame: 4}],
+            framerate: 20
+        });
+
+        this.anims.create({
+            key: "right",
+            frames: this.anims.generateFrameNumbers("aapje", {start: 5, end: 8}),
+            frameRate: 10,
+            repeat: -1
+        });
+        beweging = this.input.keyboard.createCursorKeys();
+
+        //sterren gen
+        sterren = this.physics.add.group({
+            key: "ster",
+            repeat: 11,
+            setXY: {x: 12, y: 0, stepX: 70}
+        });
+        sterren.children.iterate(function (child) {
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+        })
+
+// bommen gen
+        bommen = this.physics.add.group();
+
+
+        puntentekst = this.add.text(16, 16, "u heeft:" + punten + " punten", {fontSize: '32px', fill: '#000'})
+        this.physics.add.collider(speler, platforms);
+        this.physics.add.collider(sterren, platforms);
+        this.physics.add.collider(bommen, platforms);
+        this.physics.add.collider(bommen, speler, sterf, null, this);
+        this.physics.add.overlap(speler, sterren, pakster, null, this);
+
+
+    }
+
+    function update() {
+        if (gameover)
+        {
+            puntentekst.setText("         GAME OVER     F5 to restart");
+            return;
+        }
+        //pickupSound
+        if (punten > X) {
+            X += 10;
+            this.smacksound.play();
+
+        }
+        if (beweging.left.isDown) {
+
+            speler.setVelocityX(-160);
+            speler.anims.play("left", true);
+        } else if (beweging.right.isDown) {
+            speler.setVelocityX(160);
+            speler.anims.play("right", true);
+        } else {
+            speler.setVelocityX(0);
+            speler.anims.play("turn", true);
+        }
+        if (beweging.up.isDown && speler.body.touching.down) {
+            speler.setVelocityY(-330);
+        }
+    }
+
+    function pakster(speler, ster) {
+        punten += 10;
+        ster.disableBody(true, true);
+        puntentekst.setText("u heeft:" + punten + " punten");
+
+        if (sterren.countActive(true) === 0) {
+            sterren.children.iterate(function (child) {
+                child.enableBody(true, child.x, 0, true, true);
+            });
+
+            var Y = (speler.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+            var bom = bommen.create(Y, 16, "bom");
+            bom.setBounce(1);
+            bom.setCollideWorldBounds(true);
+            bom.setVelocity(Phaser.Math.Between(-200, 200), 20);
+        }
+    }
+
+    function sterf(speler, bom) {
+        this.physics.pause();
+        speler.setTint(0xff0000);
+        speler.anims.play("turn");
+        gameover = true;
+    }
+</script>
+
+</body>
+</html>
