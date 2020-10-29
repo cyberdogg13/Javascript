@@ -41,7 +41,7 @@
     var puntentekst;
     var gameover = false;
     var bommen;
-
+    var gameovertekst;
 
 
     function preload() {
@@ -119,8 +119,11 @@
 // bommen gen
         bommen = this.physics.add.group();
 
-
-        puntentekst = this.add.text(16, 16, "u heeft:" + punten + " punten", {fontSize: '32px', fill: '#000'})
+        gameovertekst = this.add.text(game.config.width / 4, game.config.height / 2, " ", {
+            fontSize: '52px',
+            fill: '#000'
+        });
+        puntentekst = this.add.text(16, 16, "u heeft:" + punten + " punten", {fontSize: '32px', fill: '#000'});
         this.physics.add.collider(speler, platforms);
         this.physics.add.collider(sterren, platforms);
         this.physics.add.collider(bommen, platforms);
@@ -131,9 +134,9 @@
     }
 
     function update() {
-        if (gameover)
-        {
+        if (gameover) {
             puntentekst.setText("         GAME OVER     F5 to restart");
+            gameovertekst.setText("highscore = " + punten)
             return;
         }
         //pickupSound
