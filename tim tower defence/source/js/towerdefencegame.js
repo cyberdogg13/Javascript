@@ -16,9 +16,14 @@ var config = {
 };
 var game = new Phaser.Game(config);
 
-
-var kogelSchade = 5;
+//moeilijkheids instellingen
+var moeilijkhijd = 1;
+var badguyHP = 110;
 var badguySnelheid = 1 / 10000;
+var spawnperdiff = 10;
+
+var spawncount = 0;
+var kogelSchade = 5;
 var graphics;
 var pad;
 var punten = 0;
@@ -26,6 +31,10 @@ var killpoints = 0;
 var puntentekst;
 var gulden = 50;
 var guldentekst;
+var levenspunten = 10;
+var leventekst;
+var gameovertekst;
+var gameover = false;
 
 // map array
 //dit is om te kijken of er een beschikbare plek is op het de map voor een turret
@@ -119,7 +128,7 @@ var Enemy = new Phaser.Class({
     startOnPath: function () {
         // "t" terug zetten op 0 zodat de badguy op het begin van het pad word geplaatst
         this.follower.t = 0;
-        this.hp = 100;
+        this.hp = (badguyHP*moeilijkhijd);
         this.scaleX = 0.8;
         this.scaleY = 0.8;
 
@@ -150,23 +159,26 @@ var Enemy = new Phaser.Class({
         // update enemy x and y to the newly obtained x and y
         this.setPosition(this.follower.vec.x, this.follower.vec.y);
 
-        // if we have reached the end of the path, remove the enemy
+        // als een badguy aan het eind is gekomen word de unit verwijderd
+        //tevens worden de levenspunten verlaagt met 1
         if (this.follower.t >= 1) {
             this.setActive(false);
             this.setVisible(false);
+            levenspunten -= 1;
         }
     }
 
 });
 
 function damageEnemy(enemy, kogel) {
-    // only if both enemy and bullet are alive
+    // alleen als de kogel en de badguy actief is
     if (enemy.active === true && kogel.active === true) {
-        // we remove the bullet right away
+        //verwijderen van de kogel
+        //mischien veranderen in .destroy
         kogel.setActive(false);
         kogel.setVisible(false);
 
-        // decrease the enemy hp with BULLET_DAMAGE
+        // badguy HP verlagen met kogelschade
         enemy.receiveDamage(kogelSchade);
     }
 }
@@ -298,10 +310,13 @@ function create() {
     this.Mgbulletsound = this.sound.add("Mgbulletsound");
     puntentekst = this.add.text(16, 16, "u heeft:" + punten + " punten", {fontSize: '32px', fill: '#FFFFFF'});
     guldentekst= this.add.text(16, 54, "u heeft:" + gulden + " gulden", {fontSize: '32px', fill: '#FFFFFF'});
+    leventekst= this.add.text(670, 16, "u heeft nog:" + levenspunten + " levens", {fontSize: '32px', fill: '#FFFFFF'});
+    gameovertekst = this.add.text(game.config.width / 4, game.config.height / 2, " ", {fontSize: '52px', fill: '#FFFFFF'});
 }
 
-
+var p = 10;
 function update(time, delta) {
+
 
 if (killpoints > punten){
     punten +=  10;
@@ -309,19 +324,44 @@ if (killpoints > punten){
     puntentekst.setText("u heeft:" + punten + " punten");
     guldentekst.setText("u heeft:" + gulden + " gulden");
 }
+
+if (levenspunten < p){
+    leventekst.setText("u heeft nog:" + levenspunten + " levenspunten");
+    p -= 1;
+}
     // als het tijd is voor de volgende badguy
-    if (time > this.nextEnemy) {
-        var enemy = enemies.get();0
+    if (time > this.nextEnemy && gameover === false) {
+        var enemy = enemies.get();
         if (enemy) {
+            spawncount ++;
+            console.log(badguyHP*moeilijkhijd);
+            console.log(spawncount + " spawncount " + moeilijkhijd + " moeilijkheid ");
             enemy.setActive(true);
             enemy.setVisible(true);
 
-            // plaatst badhuy op het begin van het pad
+            // plaatst badguy op het begin van het pad
             enemy.startOnPath();
 
             this.nextEnemy = time + 2000;
         }
+    };
+    if (gameover) {
+        puntentekst.setText("         GAME OVER     F5 to restart");
+        gameovertekst.setText("highscore = " + punten)
+        leventekst.setText(" ");
+        guldentekst.setText(" ");
+        badguySnelheid = 0;
+        kogelSchade = 0;
+        return;
+    };
+    if(levenspunten === 0){
+        gameover = true;
     }
+if (spawncount === spawnperdiff ){
+    // dit verhoogt de HP van de badguys
+  moeilijkhijd += 1;
+  spawncount = 0;
+};
 
 }
 
