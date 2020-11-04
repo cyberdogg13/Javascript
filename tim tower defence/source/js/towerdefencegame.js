@@ -39,23 +39,24 @@ var gameover = false;
 // map array
 //dit is om te kijken of er een beschikbare plek is op het de map voor een turret
 var map = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0, 0,-1,-1,-1,-1,-1,-1, 0, 0, 0],
-    [0, 0,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0, 0,-1, 0, 0, 0],
-    [0, 0,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0, 0,-1, 0, 0, 0],
-    [0, 0,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0, 0,-1, 0, 0, 0],
-    [0, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0, 0, 0,-1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0,-1,-1,-1,-1,-1,-1, 0, 0, 0],
+    [0, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0,-1,-1,-1,-1,-1,-1, 0, 0, 0],
+    [0, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1,-1, 0, 0,-1,-1, 0, 0, 0],
+    [0, 0,-1,-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1,-1, 0, 0,-1,-1, 0, 0, 0],
+    [0, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0,-1,-1, 0, 0, 0],
+    [0, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 0, 0,-1,-1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1,-1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1,-1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1,-1, 0, 0, 0]
 ];
 
 function preload() {
     // laden van de de plaatsjes en geluidjes
 
+    this.load.image("achtergrond", "assets/tower defence background.png");
     this.load.audio("Mgbulletsound",["assets/sounds/Mgbulletsound.mp3","assets/sounds/Mgbulletsound.ogg"]);
     this.load.atlas('sprites', 'assets/spritesheet.png', 'assets/spritesheet.json');
     this.load.image('gunturret', 'assets/turrets/MG.png');
@@ -83,6 +84,7 @@ var Mgkogel = new Phaser.Class({
     fire: function (x, y, angle) {
         this.setActive(true);
         this.setVisible(true);
+
 
         //  begin positie van de kogel
         this.setPosition(x, y - 8);
@@ -129,8 +131,8 @@ var Enemy = new Phaser.Class({
         // "t" terug zetten op 0 zodat de badguy op het begin van het pad word geplaatst
         this.follower.t = 0;
         this.hp = (badguyHP*moeilijkhijd);
-        this.scaleX = 0.8;
-        this.scaleY = 0.8;
+        this.scaleX = 1.1;
+        this.scaleY = 1.1;
 
         // get x and y of the given t point
         pad.getPoint(this.follower.t, this.follower.vec);
@@ -275,6 +277,9 @@ function getEnemy(x, y, distance) {
 function create() {
 
 
+    this.achtergrond = this.add.image(600,300 ,"achtergrond");
+    this.achtergrond.scaleX = 0.8;
+    this.achtergrond.scaleY = 0.8;
 
     //grid functie uitvoeren
     var graphics = this.add.graphics();
@@ -282,14 +287,14 @@ function create() {
 
     //het pad voor de badguys
     // getekent met behulp van X/Y coordinaten van het scherm
-    pad = this.add.path(625, -1);
-    pad.lineTo(625, 225);
-    pad.lineTo(125, 225);
-    pad.lineTo(125, 425);
-    pad.lineTo(825, 425);
-    pad.lineTo(825, 225);
-    pad.lineTo(1025, 225);
-    pad.lineTo(1025, 605);
+    pad = this.add.path(600, -5);
+    pad.lineTo(600, 200);
+    pad.lineTo(150, 200);
+    pad.lineTo(150, 400);
+    pad.lineTo(800, 400);
+    pad.lineTo(800, 200);
+    pad.lineTo(1000, 200);
+    pad.lineTo(1000, 605);
 
 
     graphics.lineStyle(3, 0xffffff, 1);
